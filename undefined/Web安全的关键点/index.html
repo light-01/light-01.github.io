@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  
+  <title>Web安全的关键点 - Light</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  
+  <meta name="keywords" content=Web 笔记>
+  
+  
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=1.02">
+  
+  
+
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+  <body>
+    <div class="container">
+      <header class="header">
+  <div class="blog-title">
+    <a href="/" class="logo">Light</a>
+    <div class="subtitle">晚来天欲雪，能饮一杯无？</div>
+  </div>
+  <nav class="navbar">
+    <ul class="menu">
+      
+        <li class="menu-item">
+          <a href="/" class="menu-item-link">Home</a>
+        </li>
+      
+        <li class="menu-item">
+          <a href="/archives" class="menu-item-link">Archives</a>
+        </li>
+      
+        <li class="menu-item">
+          <a href="/about" class="menu-item-link">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+</header>
+<article class="post">
+  <div class="post-title">
+    <h1 class="article-title">Web安全的关键点</h1>
+  </div>
+   <div class="post-meta">
+    <span class="post-time">2018-04-21</span>
+  </div>
+  <div class="post-content">
+    <p>本文是Web安全的学习笔记，摘自《web前端黑客揭秘》……</p>
+<p>在理解整个Web安全方面的知识之旅中，有如下几个关键点作为支撑，希望后续一切可以顺利。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1.1 数据与指令</span><br><span class="line">1.2 浏览器的同源策略</span><br><span class="line">1.3 信任与信任关系</span><br><span class="line">1.4 社会工程学的作用</span><br><span class="line">1.5 布放不单一</span><br><span class="line">1.6 场景很重要</span><br></pre></td></tr></table></figure>
+<h1 id="1-1-数据与指令"><a href="#1-1-数据与指令" class="headerlink" title="1.1 数据与指令"></a>1.1 数据与指令</h1><p>用浏览器打开一组网页，呈现在眼前的都是数据，数据类型有如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">数据类型</th>
+<th style="text-align:center">数据内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">服务端储存数据</td>
+<td style="text-align:center">数据库， 文件系统， 内存等；</td>
+</tr>
+<tr>
+<td style="text-align:center">客户端储存数据</td>
+<td style="text-align:center">本地cookie， Flash Cookie等；</td>
+</tr>
+<tr>
+<td style="text-align:center">传输中的数据</td>
+<td style="text-align:center">JSON数据， XML数据等</td>
+</tr>
+<tr>
+<td style="text-align:center">文本数据</td>
+<td style="text-align:center">HTML Javascirpt CSS等</td>
+</tr>
+<tr>
+<td style="text-align:center">多媒体数据</td>
+<td style="text-align:center">Flash  mp4 mp3 等</td>
+</tr>
+<tr>
+<td style="text-align:center">图片数据 ……</td>
+<td style="text-align:center">……</td>
+</tr>
+</tbody>
+</table>
+<p>这些数据构成了我们看到的web世界，表面看起来丰富多彩，但是在数据流的每一个环节都可能出现安全风险。因为数据有可能被污染，而不像预期那样存储和执行。存储，传输，呈现数据需要合理的指令，正是因为指令被解释执行，才能产生对应的数据内容，不同的指令的解释执行，由相应的环境完成，比如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> username,email,desc1 <span class="keyword">form</span> <span class="keyword">users</span> <span class="keyword">id</span>=<span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<p>这是一条SQL查询指令，当指令被解释执行时，就会产生一组由username/email/desc1组成的数据，这里的解释环境为数据库引擎。再比如：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">  eval(location.hash.substr(1))</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>script标签内的是一个JavaScript指令，由JS引擎解释执行，解释的结果就是数据，而script标签本身是HTML指令，由浏览器dom引擎渲染执行；</p>
+<p>当正常的数据内容被注入指令内容，再解释的过程中，如果注入的指令能够被独立执行，那么攻击就发生了。下面两个例子模拟攻击场景：</p>
+<h2 id="1-SQL注入攻击的发生"><a href="#1-SQL注入攻击的发生" class="headerlink" title="1.SQL注入攻击的发生"></a>1.SQL注入攻击的发生</h2>
+  </div>
+  <div class="post-footer">
+    
+      <ul class="post-tag-list"><li class="post-tag-list-item"><a class="post-tag-list-link" href="/tags/Web-笔记/">Web 笔记</a></li></ul>
+    
+
+    <a href="#top" class="top">Back to Top</a>
+  </div>
+</article>
+<footer>
+  &copy; 2018
+  <span class="author">
+    Light
+  </span>
+</footer>
+    </div>
+  </body>
+</html>
