@@ -5,7 +5,7 @@ html,
 body,
 .container {
   height: 100%;
-  font-family: Hiragino Sans GB, Microsoft YaHei, WenQuanYi, Airal, sans-serif;
+  font-family: "lucida grande", "lucida sans unicode", lucida, helvetica, "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
   color: #444;
 }
 .container {
@@ -101,7 +101,7 @@ a {
 .highlight .section {
   color: #4271ae;
 }
-/* Tomorrow Purple */
+/* Tomorrow Purple font-family: Hiragino Sans GB, Microsoft YaHei, WenQuanYi, Airal, sans-serif;*/
 .highlight .keyword,
 .highlight .selector-tag {
   color: #8959a8;
