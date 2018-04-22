@@ -282,11 +282,9 @@ a {
     color: #999;
   }
 }
-.archive .post-archive .post-item .post-title {
-  border-bottom: 1px dotted;
-}
 .archive .post-archive .post-item .post-title:hover {
-  border-bottom: 1px solid;
+/*border-bottom: 1px solid;*/
+  color: #00f;
 }
 .page-nav {
   padding: 0 20px;
