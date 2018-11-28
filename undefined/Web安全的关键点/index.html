@@ -2,14 +2,14 @@
 <html>
   <!DOCTYPE html>
 <html lang="en">
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
   
   <title>Web安全的关键点 - Light</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
   
-  <meta name="keywords" content=Web 笔记>
+  <meta name="keywords" content="Web" 笔记="">
   
   
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=1.02">
@@ -17,7 +17,7 @@
   
 
   <link rel="stylesheet" href="/css/style.css">
-</head>
+</head></html>
   <body>
     <div class="container">
       <header class="header">
@@ -99,7 +99,7 @@
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">selct username,email,desc1 from users where id=1 union <span class="keyword">select</span> <span class="keyword">password</span>,<span class="number">1</span>,<span class="number">1</span> <span class="keyword">from</span> <span class="keyword">users</span></span><br></pre></td></tr></table></figure>
 <p>如上所述，组成的SQL语句是合法的，一个经典的union查询，此时注入的指令内容会被当做合法的指令来执行，这样的攻击发生时，users表的password就会有泄漏的危险。</p>
 <p>再比如：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">  eval(location.hash.substr(1))</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">  <span class="built_in">eval</span>(location.hash.substr(<span class="number">1</span>))</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>script标签内的是一个JavaScript指令，由JS引擎解释执行，解释的结果就是数据，而script标签本身是HTML指令，由浏览器dom引擎渲染执行；<strong>当正常的数据内容被注入指令内容，再解释的过程中，如果注入的指令能够被独立执行，那么攻击就发生了</strong>。</p>
 <p>假设上述代码保存在<a href="http://www.foo.com/info.html中；如上代码功能如下：" target="_blank" rel="noopener">http://www.foo.com/info.html中；如上代码功能如下：</a></p>
 <table>
